@@ -39,12 +39,21 @@ public class AikidoTracker {
         System.out.println("Aikido Tracker");
         Scanner s = new Scanner(System.in);
 
-        System.out.println("Enter student name:");
+        System.out.println("Enter student name: ");
         String name = s.nextLine();
 
-        System.out.println("Enter start date (DD-MM-YYYY):");
-        LocalDate date = LocalDate.parse(s.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
+        LocalDate date = null;
+        boolean enteringStartDate = true;
+        while (enteringStartDate) {
+            System.out.println("Enter start date (DD-MM-YYYY):");
+            try {
+                date = LocalDate.parse(s.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                enteringStartDate = false;
+            } catch (Exception e) {
+                System.out.println("Invalid date. Use the DD-MM-YYYY format.");
+            }
+        }
+        
         boolean executing = true;
         AikidoTracker tracker = new AikidoTracker(name, date);
 
@@ -53,8 +62,8 @@ public class AikidoTracker {
                     "\n[Aikido Tracker]\n" +
                             "Tracking " + tracker.getStudentName() + "'s Aikido Process \n" +
                             "Training started on: " + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                            "What would you like to do? \n" +
                             "=====================================\n" +
+                            "What would you like to do? \n" +
                             "[1] Log a new training session \n" +
                             "[2] Check eligibility \n" +
                             "[3] Quit \n");
